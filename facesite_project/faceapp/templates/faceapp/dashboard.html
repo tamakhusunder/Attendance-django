@@ -10,7 +10,7 @@
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Total Staffs : 10</div>
+                                    <div class="card-body font-weight-bold">Total Staffs : 10</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">No. of Present : 5 </div>
+                                    <div class="card-body font-weight-bold">No. of Present : 5 </div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -28,7 +28,7 @@
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">No. of Absentee : 5</div>
+                                    <div class="card-body font-weight-bold">No. of Absentee : 5</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -37,7 +37,7 @@
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">New Staff : 2</div>
+                                    <div class="card-body font-weight-bold">New Staff : 2</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -75,7 +75,7 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead class=" text-center">
+                                        <thead class="">
                                             <tr>
                                                 <th>Teachers</th>
                                                 <th>Code</th>
@@ -85,7 +85,7 @@
                                                 <th>Time</th>
                                             </tr>
                                         </thead>
-                                        <tfoot class=" text-center">
+                                        <tfoot class="">
                                             <tr>
                                                 <th>Teachers</th>
                                                 <th>Code</th>
@@ -95,10 +95,13 @@
                                                 <th>Time</th>
                                             </tr>
                                         </tfoot>
-                                        <tbody class=" text-center">
+                                        <tbody class="">
                                             {% for object in teacherdbs.all%}
                                             <tr>
-                                                <td>{{object.teachers}}</td>
+                                                <td class="text-left">
+                                                    <img class="img rounded-circle img-thumbnail" width="30" height="30" alt="icon" src="{{object.image.url}}">
+                                                     {{object.teachers}}
+                                                </td>
                                                 <td>{{object.code}}</td>
                                                 <td>{{object.desgination}}</td>
                                                 <td>{{object.attendance}}</td>

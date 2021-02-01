@@ -10,21 +10,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author_hukka" content="" />
-        <title>Dashboard || Khec Admin</title>
+        <!-- Favicon icon -->
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'faceapp/images/icons/khec.png' %}">
+        <title>Khec Attendance | Dashboard</title>
         <link href="{% static 'faceapp/css/styles.css' %}" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="{% url 'index' %}">Khec Attendance</a>
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img class="img rounded-circle" width="30" height="30" alt="icon" src="{% static 'faceapp/images/icons/khec_logo.png' %}"> Khec Attendance
+            </a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                    <!-- <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button> -->
                     </div>
                 </div>
             </form>
@@ -106,8 +110,8 @@
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">Hosted by:</div>
+                        Khwopa Engineerin College
                     </div>
                 </nav>
             </div>
@@ -119,12 +123,12 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
-                            <div>
+                            <div class="text-muted">Developed by &copy; 2021 Code Breathers</div>
+                            <!-- <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
                                 <a href="#">Terms &amp; Conditions</a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </footer>
