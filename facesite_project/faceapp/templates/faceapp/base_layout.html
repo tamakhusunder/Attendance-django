@@ -17,8 +17,9 @@
         <link href="{% static 'faceapp/css/styles.css' %}" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+        {% block style %}{% endblock%}
     </head>
-    <body class="sb-nav-fixed">
+    <body class="sb-nav-fixed" style="background-color:#D1D0CE;">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="{% url 'index' %}">
                 <img class="img rounded-circle" width="30" height="30" alt="icon" src="{% static 'faceapp/images/icons/khec_logo.png' %}"><strong> Khec Attendance</strong>
@@ -56,21 +57,34 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
+
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Layouts
+                                <div class="sb-nav-link-icon"><i class="fas fa-feather-alt"></i></div>
+                                Registration
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                    <a class="nav-link" href="{% url 'register'%}">Admin</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Staffs</a>
                                 </nav>
                             </div>
+
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-camera-retro"></i></div>
+                                Application
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{% url 'face_exe' %}">Face Recognizatoin</a>
+                                </nav>
+                            </div>
+
+                            <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
+                                Application
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
@@ -81,24 +95,26 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                            <a class="nav-link" href="password.html">Forgot Password</a>
+                                            <a class="nav-link" href="login.html">Face Capture</a>
+                                            <a class="nav-link" href="register.html">Train the model</a>
+                                            <a class="nav-link" href="password.html">Staff recognization</a>
                                         </nav>
                                     </div>
+
                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
                                         Error
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="401.html">401 Page</a>
-                                            <a class="nav-link" href="404.html">404 Page</a>
-                                            <a class="nav-link" href="500.html">500 Page</a>
+                                            <a class="nav-link" href="#">ErrorAbout Us</a>
                                         </nav>
                                     </div>
                                 </nav>
                             </div>
+ -->
+
+
                             <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="{% url 'chart' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
@@ -108,6 +124,14 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Tables
                             </a>
+
+                            <div class="sb-sidenav-menu-heading">About</div>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon"><i class="far fa-address-card"></i></div>
+                                About us
+                            </a>
+
+
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -134,7 +158,7 @@
                             </div>
                             <div class="text-muted">
                                 Thank for using our system&nbsp;&nbsp;
-                                &middot;🐞&middot;
+                                &middot;😎&middot;
                                 &nbsp;&nbsp;Computer-2073
                             </div>
                         </div>

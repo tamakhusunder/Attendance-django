@@ -6,4 +6,8 @@ urlpatterns = [
     path('chart/',views.chart,name='chart'),
     path('table/',views.table,name='table'),
     # path('',views.home,name='home')
+    path('register/',views.register,name='register'),
+    path('face-recognization/',views.face_exe,name='face_exe'),
+    path('offline/',views.offline,name='offline'),
+
 ]

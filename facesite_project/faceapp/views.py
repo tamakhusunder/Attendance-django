@@ -44,6 +44,31 @@ def table(request):
 	teacherdbs,sql_totstaff,sql_present,sql_absent=database_collection()
 	return render(request,'faceapp/tables.html',{'teacherdbs':teacherdbs})
 
+def register(request):
+	return render(request,'faceapp/register.html',{})
+
+def face_exe(request):
+	return render(request,'faceapp/face_exe.html',{})
+
+def offline(request):
+	from tkinter import Tk
+	from tkinter import filedialog
+	import os
+	#dialog box for opening the video file
+	my_filetypes = [('mp4  files', '*.mp4'), ('png files', '.png'),('jpg files', '.jpg'), ('all files', '.*')]
+	file_path = filedialog.askopenfilename(parent=window,
+                                    initialdir=os.getcwd(),
+                                    title="Please select a file:",
+                                    filetypes=my_filetypes)
+	#    capture_value='C:/Users/Hukka/Desktop/test videos/videorec.mp4'
+	if len(file_path) >0:	 #check for empty string and to remove error 
+		file_path=file_path.replace('/','\\')
+		myVars = {'capture_value':file_path}
+		exec(open('webcam_recognizer_unknown.py').read(), myVars)
+
+	
+	return('/')
+
 
 #######
 

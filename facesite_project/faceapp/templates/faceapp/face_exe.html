@@ -1,0 +1,206 @@
+<!-- face_recognize is application page to run out code of capture,train and recognize-->
+
+{% extends "faceapp/base_layout.html" %}
+{% load static %}
+
+{% block style %}
+	<style>		
+			/*
+			flip card-------this style is for flip only
+			*/
+			.card-flip > div {
+			  backface-visibility: hidden;
+			  transition: transform 300ms;
+			  transition-timing-function: linear;
+			  width: 100%;
+			  height: 100%;
+			  margin: 0;
+			  display: flex;
+			}
+
+			.card-front {
+			  transform: rotateY(0deg);
+			}
+
+			.card-back {
+			  transform: rotateY(180deg);
+			  position: absolute;
+			  top: 0;
+			}
+
+			.card-flip:hover .card-front {
+			  transform: rotateY(-180deg);
+			}
+			  
+			.card-flip:hover .card-back {
+			  transform: rotateY(0deg);
+			}
+
+            /*
+            hover ---------for recognize button
+            */
+            div.hover_class a {
+              text-decoration: none;
+              color: white;
+              padding: 7px;
+              display:inline-block;
+            }
+            div.hover_class ul {
+              display: inline;
+              margin: 0;
+              padding: 0;
+            }
+            div.hover_class ul li {display: inline-block;}
+            div.hover_class ul li:hover ul {display: block;}
+            div.hover_class ul li ul {
+              position: absolute;
+              width: 23%;
+              display: none;
+            }
+            div.hover_class ul li ul li { 
+              background: #666; 
+              display: block; 
+            }
+            div.hover_class ul li ul li a {display:block !important;} 
+            div.hover_class ul li ul li:hover {background: #999;}
+            div.hover_class ul li ul li a:hover {color:green;} 
+
+
+	</style>
+{% endblock%}
+
+
+{% block content %}
+    <main>
+         <div class="container-fluid">
+                <h1 class="mt-4">Face Recognition</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Application / Face Recognition</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <!-- Welcome to  our face Recognition System. <br> -->Please filp the below cards and click the button for the executing the application.
+                    </div>
+                </div>
+
+
+            	<!-- <section class="jumbotron text-center bg-white mt-4">
+            	    <div class="container p-2">
+            	      <h1>Face Recognition</h1>
+            	      <p class="lead text-muted">Welcome to  our face Recognition System. <br>Here we are going to capture photo, train them and recognize them through the AI.
+            	      </p>
+            	    </div>
+            	</section> -->
+
+            	<div class="card-container bg-white mb-4" style="padding:2rem 10rem 2rem 10rem;">
+                    <div class="row">
+                        <div class="col-sm-4 my-3">
+                            <div class="card card-flip h-100 shadow-lg">
+                                <div class="card-front text-dark bg-white">
+                                    <div class="card-body">
+                                        <center><img src="{% static 'faceapp/images/icons/capture.png' %}" alt="" height="30%" width="30%"></center><br><br>
+                                        <h3 class="card-title"><b>Face capture</b></h3>
+                                        <p class="card-text">Capture a face of user for making a trained model for facial recognition system. </p>
+                                    	 
+                                    	 <hr color="gray">
+                                    	 <center>👉 Start</center>
+                                    </div>
+                                </div>
+                                <div class="card-back bg-dark">
+                                    <div class="card-body text-white">
+                                        <h3 class="card-title">Attention!</h3>
+                                        <p class="card-text"><br>User are requested to stand sitll while caturing the picture. And they should slowly change face position in all direction.</p>
+                                        <center><a href="#" class="btn btn-outline-warning"><b>Capture</b></a></center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="col-sm-4 my-3">
+                            <div class="card card-flip h-100 shadow-lg">
+                                <div class="card-front text-dark bg-white">
+                                    <div class="card-body">
+                                        <center><img src="{% static 'faceapp/images/icons/chip.png' %}" alt="" height="30%" width="30%"></center><br><br>
+                                        <h3 class="card-title"><b>Train</b></h3>
+                                        <p class="card-text">Train is process of making model of picture of user so that machine can learn and know the user. </p>
+                                        
+                                    	 <hr color="gray">
+                                    	 <center>👉 Start</center>
+                                    </div>
+                                </div>
+                                <div class="card-back bg-dark">
+                                    <div class="card-body text-white">
+                                        <h3 class="card-title">Attention!</h3>
+                                        <p class="card-text"><br>For training high spec CPU and GPU is required. Before processing check cpu to run Train button.</p>
+                                        <center><a href="#" class="btn btn-outline-danger"><b>Train</b></a></center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="col-sm-4 my-3">
+                            <div class="card card-flip h-100 shadow">
+                                <div class="card-front text-dark bg-white">
+                                    <div class="card-body">
+                                        <center><img src="{% static 'faceapp/images/icons/recog.png' %}" alt="" height="30%" width="30%"></center><br><br>
+                                        <h3 class="card-title"><b>Recognize</b></h3>
+                                        <p class="card-text">This function is use to recognize the face trained from the datamodel. </p>
+                                        
+                                    	 <hr color="gray">
+                                    	 <center>👉 Start</center>
+                                    </div>
+                                </div>
+                                <div class="card-back bg-dark">
+                                    <div class="card-body text-white">
+                                        <h3 class="card-title">Attention!</h3>
+                                        <p class="card-text"><br>This will access your camera for recognization the face. So face toward the camera.</p>
+                                        	<center>
+                                                <!-- hover code -->
+                                                <div class='hover_class'>
+                                                      <ul>
+                                                        <li><button type="button" class="btn btn-outline-success"><b>
+                                                          Recognize
+                                                          <ul>
+                                                            <li><a href="{% url 'offline' %}">Offline</a></li>
+                                                            <li><a href="#">Online</a></li>
+                                                          </ul></b>
+                                                        </li>
+                                                      </ul>
+                                                    </div>
+
+                                            <!-- <form>
+                									       <input type="radio" name = "ans" value="online" default> Online</br>
+                									       <input type="radio" name = "ans" value="offline"> Offline</br><br>
+                									       <button type="button" class="btn btn-outline-success"><b>Recognize</b></button>
+                									   </form> -->
+
+                	                       <!--  <div class="dropdown">
+                								<button class="btn btn-outline-success dropdown-toggle" href="#" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                								    Recognize
+                								</button>
+                								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                								    <a class="dropdown-item" href="#">Online</a>
+                								    <a class="dropdown-item" href="#">Offline</a>
+                							  	</div>
+                							</div> -->
+                							</center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!-- 
+                        <hr color="black" style="margin-top: :4rem;">
+                         <p style="margin-top:4rem; ">Please filp the above card and click the button for the executing the application.</p>
+                         
+ -->
+                    </div>
+                </div>
+        </div>
+    </main>
+{% endblock %}
+
+
+
