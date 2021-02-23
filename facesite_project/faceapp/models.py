@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 class Teacherdb(models.Model):
 	"""database for teacherdb"""
-	image = models.ImageField(upload_to='static/faceapp/images/staffs')
+	image = models.ImageField(upload_to='faceapp/images/staffs')
 	teachers = models.CharField(max_length=255)
 	code = models.CharField(max_length=255)
 	desgination = models.CharField(max_length=255)

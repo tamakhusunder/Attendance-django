@@ -93,6 +93,8 @@
             	    </div>
             	</section> -->
 
+
+                <!-- card filp contains 2 side -->
             	<div class="card-container bg-white mb-4" style="padding:2rem 10rem 2rem 10rem;">
                     <div class="row">
                         <div class="col-sm-4 my-3">
@@ -110,8 +112,22 @@
                                 <div class="card-back bg-dark">
                                     <div class="card-body text-white">
                                         <h3 class="card-title">Attention!</h3>
-                                        <p class="card-text"><br>User are requested to stand sitll while caturing the picture. And they should slowly change face position in all direction.</p>
-                                        <center><a href="#" class="btn btn-outline-warning"><b>Capture</b></a></center>
+                                        <p class="card-text"><br>User are requested to stand still while caturing the picture. And they should slowly change face position in all direction.</p>
+                                        <div class= "row">
+                                            
+                                              <!-- Form to take inputname -->
+                                                    <form action="facecapture" method="POST">
+                                                      {% csrf_token %}
+                                                      <div class="form-row">
+                                                        <div class="col">
+                                                          <input name="ipname" type="text" class="form-control" placeholder="Enter name ....">
+                                                        </div>
+                                                      </div>
+                                                      <button type="submit" class='btn btn-outline-warning my-2'>Capture</button>
+                                                    </form>
+                                            
+                                        </div>
+                                        <!-- <center><a href="{% url 'capturefaces' %}" class="btn btn-outline-warning"><b>Capture</b></a></center> -->
                                     </div>
                                 </div>
                             </div>
@@ -157,36 +173,7 @@
                                     <div class="card-body text-white">
                                         <h3 class="card-title">Attention!</h3>
                                         <p class="card-text"><br>This will access your camera for recognization the face. So face toward the camera.</p>
-                                        	<center>
-                                                <!-- hover code -->
-                                                <div class='hover_class'>
-                                                      <ul>
-                                                        <li><button type="button" class="btn btn-outline-success"><b>
-                                                          Recognize
-                                                          <ul>
-                                                            <li><a href="{% url 'offline' %}">Offline</a></li>
-                                                            <li><a href="#">Online</a></li>
-                                                          </ul></b>
-                                                        </li>
-                                                      </ul>
-                                                    </div>
-
-                                            <!-- <form>
-                									       <input type="radio" name = "ans" value="online" default> Online</br>
-                									       <input type="radio" name = "ans" value="offline"> Offline</br><br>
-                									       <button type="button" class="btn btn-outline-success"><b>Recognize</b></button>
-                									   </form> -->
-
-                	                       <!--  <div class="dropdown">
-                								<button class="btn btn-outline-success dropdown-toggle" href="#" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                								    Recognize
-                								</button>
-                								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                								    <a class="dropdown-item" href="#">Online</a>
-                								    <a class="dropdown-item" href="#">Offline</a>
-                							  	</div>
-                							</div> -->
-                							</center>
+                                        <center><a href="{% url 'recognizations' %}" class="btn btn-outline-success"><b>Recognize</b></a></center>
                                     </div>
                                 </div>
                             </div>
