@@ -2,15 +2,32 @@ from django.db import models
 
 
 # Create your models here.
-class Teacherdb(models.Model):
-	"""database for teacherdb"""
+class StaffInfo(models.Model):
+	"""database/table for staffs"""
+	name=models.CharField(max_length=255)
 	image = models.ImageField(upload_to='faceapp/images/staffs')
-	teachers = models.CharField(max_length=255)
-	code = models.CharField(max_length=255)
+	code = models.CharField(primary_key=True, max_length=255)
+	department=models.CharField(max_length=255)
 	desgination = models.CharField(max_length=255)
-	attendance = models.CharField(max_length=255)
-	time = models.CharField(max_length=255)
-	pub_date = models.DateTimeField('date published')
+	specialization = models.CharField(max_length=255)
+	email = models.CharField(max_length=255)
+	contact = models.CharField(max_length=255)
+	address = models.CharField(max_length=255)
 
 	def __str__(self):
-		return self.teachers+'-->'+self.attendance+'-->'+self.time	#--> will be shown in database doesnot effect anything
+		return self.name+'-->'+self.code+'-->'+self.department	#--> will be shown in database doesnot effect anything
+
+
+class AttendanceTb(models.Model):
+	"""table for attendance from webcame"""
+	status_choices=[
+		('PRESENT','Present'),
+		('ABSENT','Absent'),
+		]
+	t=models.ForeignKey('StaffInfo',on_delete=models.CASCADE)
+	date=models.CharField(max_length=255)
+	time=models.CharField(max_length=255)
+	status=models.CharField(max_length=255,choices=status_choices,default='ABSENT')
+
+	def __str__(self):
+		return self.t_id+'-->'+self.date

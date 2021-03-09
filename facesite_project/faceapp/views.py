@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Teacherdb
+from .models import StaffInfo,AttendanceTb
+
+from django.db import connection
 
 # Create your views here.
 # def index(request):
@@ -10,32 +12,47 @@ from .models import Teacherdb
 
 
 # def database_collection():
-# 	teacherdbs=Teacherdb.objects
+# 	StaffInfos=StaffInfo.objects
 # 	cursor = connection.cursor()
-# 	cursor.execute("SELECT COUNT(*) FROM faceapp_teacherdb")
+# 	cursor.execute("SELECT COUNT(*) FROM faceapp_StaffInfo")
 #     sql_totstaff = fetchone()
 #     print(connection.queries)
 # 	print('sunder')
 # 	print(sql_totstaff)
 # 	print('sunder')
-# 	return teacherdbs,sql_totstaff
+# 	return StaffInfos,sql_totstaff
 
 ################
 
 def database_collection():
-	teacherdbs=Teacherdb.objects.all()
-	# sql_totstaff=Teacherdb.objects.raw("SELECT  COUNT(*) FROM faceapp_teacherdb")
+	StaffInfos=StaffInfo.objects.all()
+	# StaffInfos=Teacherdb.objects.raw("SELECT * FROM faceapp_StaffInfo")
+	sql_totstaff = StaffInfo.objects.all().count()
+	# sql_totstaff=StaffInfo.objects.raw("SELECT  COUNT(*) FROM faceapp_StaffInfo")
 	#sql-->*:all()			WHERE:filter()
-	sql_totstaff = Teacherdb.objects.all().count()
-	sql_present = Teacherdb.objects.filter(attendance="Present").count()
-	sql_absent = Teacherdb.objects.filter(attendance="Absent").count()
-	print('sunder')
-	print(sql_present)
-	return teacherdbs,sql_totstaff,sql_present,sql_absent
+	
+
+	AttendanceTbs=AttendanceTb.objects.all()
+	sql_present = AttendanceTb.objects.filter(status='Present',date='2021-02-23').count()
+	# sql_absent = AttendanceTb.objects.filter(status='Absent',date='2021-02-23').count()
+	sql_absent=sql_totstaff-sql_present
+	# sql_present=1
+	# sql_absent=2
+
+	# sql_display=AttendanceTb.objects.raw("SELECT 'faceapp_staffinfo'.'name','faceapp_staffinfo'.'image','faceapp_staffinfo'.'code','faceapp_staffinfo'.'designation','faceapp_attendancetb'.'status','faceapp_attendancetb'.'name'")
+	return StaffInfos,sql_totstaff,sql_present,sql_absent
+
+##################	
 
 def index(request):
-	teacherdbs,sql_totstaff,sql_present,sql_absent=database_collection()
-	return render(request,'faceapp/index.html',{'teacherdbs':teacherdbs,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent})
+	StaffInfos,sql_totstaff,sql_present,sql_absent=database_collection()
+	return render(request,'faceapp/index.html',{'StaffInfos':StaffInfos,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent})
+	# cursor=connection.cursor()
+	# sql_staffs="select faceapp_StaffInfo.name,faceapp_StaffInfo.image,faceapp_StaffInfo.code,faceapp_StaffInfo.desgination,faceapp_AttendanceTb.time,faceapp_AttendanceTb.status from faceapp_StaffInfo,faceapp_AttendanceTb WHERE faceapp_StaffInfo.code=faceapp_AttendanceTb.t"
+	# sql_staff="select * from faceapp_StaffInfo"
+	# cursor.execute(sql_staff)
+	# answer=cursor.fetchall()
+	# return render(request,'faceapp/index.html',{'StaffInfos':StaffInfos,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent})
 
 def register(request):
 	return render(request,'faceapp/register.html',{})
@@ -50,9 +67,9 @@ def chart(request):
 	return render(request,'faceapp/charts.html',{})
 
 def table(request):
-	teacherdbs,sql_totstaff,sql_present,sql_absent=database_collection()
-	return render(request,'faceapp/tables.html',{'teacherdbs':teacherdbs})
-
+	StaffInfos,sql_totstaff,sql_present,sql_absent=database_collection()
+	return render(request,'faceapp/tables.html',{'StaffInfos':StaffInfos})
+	
 
 # <<<<<<<<<----application code--->>>>>>>>>>>>>>>>>>>
 
