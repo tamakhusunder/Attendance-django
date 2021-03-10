@@ -101,24 +101,37 @@
                                             </tr>
                                         </tfoot>
                                         <tbody class="">
-                                            {% for object in teacherdbs.all%}
+                                          
+                                            <!-- for present student -->
+                                            {% for object in presentDetail %}
                                             <tr>
                                                 <td class="text-left">
-                                                    <img class="img rounded-circle img-thumbnail" width="30" height="30" alt="icon" src="{{object.image.url}}">
-                                                     {{object.teachers}}
+                                                    <img class="img rounded-circle img-thumbnail" width="30" height="30" alt="icon" src="media/{{object.0}}">
+                                                     {{object.1}}
                                                 </td>
-                                                <td>{{object.code}}</td>
-                                                <td>{{object.desgination}}</td>
-                                                {% if object.attendance == 'Present' %}
-                                                <td class="text-success font-weight-bold">{{object.attendance}}</td>
-                                                {% else %}
-                                                <td class="text-danger font-weight-bold">{{object.attendance}} ❌</td>
-                                                {% endif %}
-                                                </td>
-                                                <td>{{object.time}}</td>
-                                            </tr> 
+                                                <td>{{object.2}}</td>
+                                                <td>{{object.3}}</td>
+                                                <td class="text-success font-weight-bold">{{object.4}}</td>
+                                                <td>{{object.5}}</td>
+                                            </tr>
+
                                             {% endfor %}
+
+                                            <!-- for absent student -->
+                                             {% for object in absent_detail %}
                                             <tr>
+                                                <td class="text-left">
+                                                    <img class="img rounded-circle img-thumbnail" width="30" height="30" alt="icon" src="media/{{object.0}}">
+                                                     {{object.1}}
+                                                </td>
+                                                <td>{{object.2}}</td>
+                                                <td>{{object.3}}</td>
+                                                <td class="text-danger font-weight-bold">ABSENT ❌</td>
+                                                <td>----</td>
+                                            </tr>
+
+                                            {% endfor %}
+
                                         </tbody>
                                     </table>
                                 </div>

@@ -4,6 +4,7 @@ from .models import StaffInfo,AttendanceTb
 
 from django.db import connection
 
+import numpy as np
 # Create your views here.
 # def index(request):
 #     return HttpResponse('Hello world 2')
@@ -26,6 +27,7 @@ from django.db import connection
 
 def database_collection():
 	StaffInfos=StaffInfo.objects.all()
+	# print(StaffInfos.image)
 	# StaffInfos=Teacherdb.objects.raw("SELECT * FROM faceapp_StaffInfo")
 	sql_totstaff = StaffInfo.objects.all().count()
 	# sql_totstaff=StaffInfo.objects.raw("SELECT  COUNT(*) FROM faceapp_StaffInfo")
@@ -38,21 +40,74 @@ def database_collection():
 	sql_absent=sql_totstaff-sql_present
 	# sql_present=1
 	# sql_absent=2
+	cursor=connection.cursor()
+	sql_presentDetail='''SELECT faceapp_StaffInfo.image,faceapp_StaffInfo.name,faceapp_StaffInfo.code,faceapp_StaffInfo.desgination,faceapp_AttendanceTb.status,faceapp_AttendanceTb.time FROM faceapp_StaffInfo,faceapp_AttendanceTb WHERE faceapp_StaffInfo.code=faceapp_AttendanceTb.t_id AND faceapp_AttendanceTb.date="2021-02-23"'''
+	sql_allStaff='''SELECT name from faceapp_StaffInfo'''
+	# sql_staff='''SELECT t_id FROM faceapp_attendanceTb'''
+	# cursor.execute(sql_staff)
+	cursor.execute(sql_presentDetail)
+	# print(cursor.execute(sql_presentDetail))
+	a="----------------------------------------------------"
+	print(a)
+	# print(cursor.execute(sql_presentDetail))
+	presentDetail=cursor.fetchall()
+
+	cursor.execute(sql_allStaff)
+	allStaff=cursor.fetchall()
+	print(type(allStaff),allStaff)
+	print('*******************************************')
+	# print(presentDetail)
+	print('###########################################')
+	i=0
+	temp=[]
+	temp1=[]
+	for p in presentDetail:
+		print(p[0],p[1],p[2],p[3],p[4],p[5]) 
+		temp.append(p[1])
+
+	for i in allStaff:
+		print(i[0])
+		temp1.append(i[0])
+
+	print(temp1)
+	print(temp) 
+	absent_name = np.setdiff1d(temp1,temp)
+	# absent_code=[]
+	# absent_designation=[]
+	# absent_img=[]
+	absent_detail=()
+	list1=list(absent_detail)
+	for i in absent_name:
+			sql_absentDetail='''SELECT image, name, code, desgination from faceapp_StaffInfo where name="{}"'''.format(i)
+			print(sql_absentDetail)
+			cursor.execute(sql_absentDetail)
+			absnt=cursor.fetchall()
+			absent_detail=absent_detail+absnt
+			# absent_img.append(absnt[0][1])
+			# absent_code.append(absnt[0][2])
+			# absent_designation.append(absnt[0][4])
+
+
+
+	print(type(presentDetail),presentDetail)
+	print("**_______")
+	print(type(absent_detail),absent_detail)
+
+
+			
+
+
 
 	# sql_display=AttendanceTb.objects.raw("SELECT 'faceapp_staffinfo'.'name','faceapp_staffinfo'.'image','faceapp_staffinfo'.'code','faceapp_staffinfo'.'designation','faceapp_attendancetb'.'status','faceapp_attendancetb'.'name'")
-	return StaffInfos,sql_totstaff,sql_present,sql_absent
+	return StaffInfos,sql_totstaff,sql_present,sql_absent,presentDetail,absent_detail
 
 ##################	
 
 def index(request):
-	StaffInfos,sql_totstaff,sql_present,sql_absent=database_collection()
-	return render(request,'faceapp/index.html',{'StaffInfos':StaffInfos,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent})
-	# cursor=connection.cursor()
-	# sql_staffs="select faceapp_StaffInfo.name,faceapp_StaffInfo.image,faceapp_StaffInfo.code,faceapp_StaffInfo.desgination,faceapp_AttendanceTb.time,faceapp_AttendanceTb.status from faceapp_StaffInfo,faceapp_AttendanceTb WHERE faceapp_StaffInfo.code=faceapp_AttendanceTb.t"
-	# sql_staff="select * from faceapp_StaffInfo"
-	# cursor.execute(sql_staff)
-	# answer=cursor.fetchall()
+	StaffInfos,sql_totstaff,sql_present,sql_absent,presentDetail,absent_detail=database_collection()
 	# return render(request,'faceapp/index.html',{'StaffInfos':StaffInfos,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent})
+
+	return render(request,'faceapp/index.html',{'StaffInfos':StaffInfos,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent,'presentDetail':presentDetail,'absent_detail':absent_detail})
 
 def register(request):
 	return render(request,'faceapp/register.html',{})
@@ -67,7 +122,7 @@ def chart(request):
 	return render(request,'faceapp/charts.html',{})
 
 def table(request):
-	StaffInfos,sql_totstaff,sql_present,sql_absent=database_collection()
+	StaffInfos,sql_totstaff,sql_present,sql_absent,presentDetail,absent_detail=database_collection()
 	return render(request,'faceapp/tables.html',{'StaffInfos':StaffInfos})
 	
 

@@ -20,14 +20,14 @@ class StaffInfo(models.Model):
 
 class AttendanceTb(models.Model):
 	"""table for attendance from webcame"""
-	status_choices=[
-		('PRESENT','Present'),
-		('ABSENT','Absent'),
-		]
+	# status_choices=[
+	# 	('PRESENT','Present'),
+	# 	('ABSENT','Absent'),
+	# 	]
 	t=models.ForeignKey('StaffInfo',on_delete=models.CASCADE)
 	date=models.CharField(max_length=255)
 	time=models.CharField(max_length=255)
-	status=models.CharField(max_length=255,choices=status_choices,default='ABSENT')
+	status=models.CharField(max_length=255)
 
 	def __str__(self):
 		return self.t_id+'-->'+self.date

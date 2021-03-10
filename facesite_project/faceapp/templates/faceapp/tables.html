@@ -14,15 +14,13 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the
-                                <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
-                                .
+                                Detail information of Tearchers list in our Database.
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table mr-1"></i>
-                                DataTable Example
+                                DataTable of Teachers/staffs
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -31,36 +29,44 @@
                                             <tr>
                                                 <th>Teachers</th>
                                                 <th>Code</th>
+                                                <th>Department</th>
                                                 <th>Designation</th>
+                                                <th>Specialization</th>
+                                                <th>Email</th>
+                                                <th>Contact</th>
                                                 <!-- <th>Department</th> -->
-                                                <th>Attendance</th>
-                                                <th>Time</th>
+                                                <th>Address</th>
                                             </tr>
                                         </thead>
                                         <tfoot class="">
                                             <tr>
                                                 <th>Teachers</th>
                                                 <th>Code</th>
+                                                <th>Department</th>
                                                 <th>Designation</th>
+                                                <th>Specialization</th>
+                                                <th>Email</th>
+                                                <th>Contact</th>
                                                 <!-- <th>Department</th> -->
-                                                <th>Attendance</th>
-                                                <th>Time</th>
+                                                <th>Address</th>
                                             </tr>
                                         </tfoot>
                                         <tbody class="">
-                                            {% for object in teacherdbs.all%}
+                                            {% for object in StaffInfos.all%}
                                             <tr>
                                                 <td class="text-left">
                                                     <img class="img rounded-circle img-thumbnail" width="30" height="30" alt="icon" src="{{object.image.url}}">
-                                                     {{object.teachers}}
+                                                     {{object.name}}
                                                 </td>
                                                 <td>{{object.code}}</td>
+                                                <td>{{object.department}}</td>
                                                 <td>{{object.desgination}}</td>
-                                                <td>{{object.attendance}}</td>
-                                                <td>{{object.time}}</td>
+                                                <td>{{object.specialization}}</td>
+                                                <td>{{object.email}}</td>
+                                                <td>{{object.contact}}</td>
+                                                <td>{{object.address}}</td>
                                             </tr> 
                                             {% endfor %}
-                                            <tr>{{sql_present}}</tr>
                                         </tbody>
                                     </table>
                                 </div>
