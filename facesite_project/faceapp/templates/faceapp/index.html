@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-black mb-4">
-                                    <div class="card-body font-weight-bold">No. of Present : {{sql_present}} </div>
+                                    <div class="card-body font-weight-bold">No. of Present : {{sql_present}}</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -75,7 +75,15 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table mr-1"></i>
-                                DataTable Example
+                                Attendance Table
+                                <div class="float-right">
+                                    ( {{dateintable}} )
+                                    <form action="datesearch" method="POST">
+                                    {% csrf_token %}
+                                        <input type="date" name="attendanceDate" value="Today">
+                                        <input type="submit" name="searchDate" value="Apply">
+                                    </form>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive table-hover">
@@ -111,7 +119,7 @@
                                                 </td>
                                                 <td>{{object.2}}</td>
                                                 <td>{{object.3}}</td>
-                                                <td class="text-success font-weight-bold">{{object.4}}</td>
+                                                <td class="text-success font-weight-bold">PRESENT</td>
                                                 <td>{{object.5}}</td>
                                             </tr>
 

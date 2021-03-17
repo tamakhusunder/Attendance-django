@@ -3,6 +3,10 @@ from django.http import HttpResponse
 from .models import StaffInfo,AttendanceTb
 
 from django.db import connection
+from datetime import date
+
+from .models import StaffInfo 	#to dave form data in dataset
+
 
 import numpy as np
 # Create your views here.
@@ -23,7 +27,7 @@ import numpy as np
 # 	print('sunder')
 # 	return StaffInfos,sql_totstaff
 
-################
+#####################################################################
 
 def database_collection():
 	StaffInfos=StaffInfo.objects.all()
@@ -32,23 +36,25 @@ def database_collection():
 	sql_totstaff = StaffInfo.objects.all().count()
 	# sql_totstaff=StaffInfo.objects.raw("SELECT  COUNT(*) FROM faceapp_StaffInfo")
 	#sql-->*:all()			WHERE:filter()
-	
 
+	dateintable=str(date.today())
 	AttendanceTbs=AttendanceTb.objects.all()
-	sql_present = AttendanceTb.objects.filter(status='Present',date='2021-02-23').count()
-	# sql_absent = AttendanceTb.objects.filter(status='Absent',date='2021-02-23').count()
+	sql_present = AttendanceTb.objects.filter(status='p',date=dateintable).count()
+	print('<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>')
+	print(sql_present)
+	print('sundersundersundersundersundersundersundersundersundersundersunderttttttt')
+	# sql_absent = AttendanceTb.objects.filter(status='Absent',date='2021-02-12').count()
 	sql_absent=sql_totstaff-sql_present
 	# sql_present=1
 	# sql_absent=2
 	cursor=connection.cursor()
-	sql_presentDetail='''SELECT faceapp_StaffInfo.image,faceapp_StaffInfo.name,faceapp_StaffInfo.code,faceapp_StaffInfo.desgination,faceapp_AttendanceTb.status,faceapp_AttendanceTb.time FROM faceapp_StaffInfo,faceapp_AttendanceTb WHERE faceapp_StaffInfo.code=faceapp_AttendanceTb.t_id AND faceapp_AttendanceTb.date="2021-02-23"'''
+	sql_presentDetail='''SELECT faceapp_StaffInfo.image,faceapp_StaffInfo.name,faceapp_StaffInfo.code,faceapp_StaffInfo.desgination,faceapp_AttendanceTb.status,faceapp_AttendanceTb.time FROM faceapp_StaffInfo,faceapp_AttendanceTb WHERE faceapp_StaffInfo.code=faceapp_AttendanceTb.t_id AND faceapp_AttendanceTb.date="{}"'''.format(dateintable)
 	sql_allStaff='''SELECT name from faceapp_StaffInfo'''
 	# sql_staff='''SELECT t_id FROM faceapp_attendanceTb'''
 	# cursor.execute(sql_staff)
 	cursor.execute(sql_presentDetail)
 	# print(cursor.execute(sql_presentDetail))
-	a="----------------------------------------------------"
-	print(a)
+	print("----------------------------------------------------")
 	# print(cursor.execute(sql_presentDetail))
 	presentDetail=cursor.fetchall()
 
@@ -93,27 +99,21 @@ def database_collection():
 	print("**_______")
 	print(type(absent_detail),absent_detail)
 
-
-			
-
-
-
 	# sql_display=AttendanceTb.objects.raw("SELECT 'faceapp_staffinfo'.'name','faceapp_staffinfo'.'image','faceapp_staffinfo'.'code','faceapp_staffinfo'.'designation','faceapp_attendancetb'.'status','faceapp_attendancetb'.'name'")
-	return StaffInfos,sql_totstaff,sql_present,sql_absent,presentDetail,absent_detail
+	return StaffInfos,sql_totstaff,sql_present,sql_absent,presentDetail,absent_detail,dateintable
 
-##################	
+########################################################	
 
 def index(request):
-	StaffInfos,sql_totstaff,sql_present,sql_absent,presentDetail,absent_detail=database_collection()
+	StaffInfos,sql_totstaff,sql_present,sql_absent,presentDetail,absent_detail,dateintable=database_collection()
 	# return render(request,'faceapp/index.html',{'StaffInfos':StaffInfos,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent})
-
-	return render(request,'faceapp/index.html',{'StaffInfos':StaffInfos,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent,'presentDetail':presentDetail,'absent_detail':absent_detail})
+	return render(request,'faceapp/index.html',{'StaffInfos':StaffInfos,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent,'presentDetail':presentDetail,'absent_detail':absent_detail,'dateintable':dateintable})
 
 def register(request):
 	return render(request,'faceapp/register.html',{})
 
 def addstaff(request):
-	return render(request,'faceapp/add_new_staff.html',{})
+		return render(request,'faceapp/add_new_staff.html',{})
 
 def face_exe(request):
 	return render(request,'faceapp/face_exe.html',{})
@@ -122,9 +122,100 @@ def chart(request):
 	return render(request,'faceapp/charts.html',{})
 
 def table(request):
-	StaffInfos,sql_totstaff,sql_present,sql_absent,presentDetail,absent_detail=database_collection()
+	StaffInfos,sql_totstaff,sql_present,sql_absent,presentDetail,absent_detail,dateintable=database_collection()
 	return render(request,'faceapp/tables.html',{'StaffInfos':StaffInfos})
-	
+
+def datesearch(request):
+	StaffInfos=StaffInfo.objects.all()
+	sql_totstaff = StaffInfo.objects.all().count()
+	dateintable=str(date.today())
+	if request.method=="POST":
+		dateintable=str(request.POST["attendanceDate"])
+		print(dateintable,'<<<<<<<<-----------')
+
+	AttendanceTbs=AttendanceTb.objects.all()
+	sql_present = AttendanceTb.objects.filter(status='p',date=dateintable).count()
+	sql_absent=sql_totstaff-sql_present
+	cursor=connection.cursor()
+	sql_presentDetail='''SELECT faceapp_StaffInfo.image,faceapp_StaffInfo.name,faceapp_StaffInfo.code,faceapp_StaffInfo.desgination,faceapp_AttendanceTb.status,faceapp_AttendanceTb.time FROM faceapp_StaffInfo,faceapp_AttendanceTb WHERE faceapp_StaffInfo.code=faceapp_AttendanceTb.t_id AND faceapp_AttendanceTb.date="{}"'''.format(dateintable)
+	sql_allStaff='''SELECT name from faceapp_StaffInfo'''
+	cursor.execute(sql_presentDetail)
+	presentDetail=cursor.fetchall()
+	cursor.execute(sql_allStaff)
+	allStaff=cursor.fetchall()
+	i=0
+	temp=[]
+	temp1=[]
+	for p in presentDetail:
+		print(p[0],p[1],p[2],p[3],p[4],p[5]) 
+		temp.append(p[1])
+
+	for i in allStaff:
+		print(i[0])
+		temp1.append(i[0])
+
+	print(temp1)
+	print(temp) 
+	absent_name = np.setdiff1d(temp1,temp)
+	absent_detail=()
+	list1=list(absent_detail)
+	for i in absent_name:
+			sql_absentDetail='''SELECT image, name, code, desgination from faceapp_StaffInfo where name="{}"'''.format(i)
+			print(sql_absentDetail)
+			cursor.execute(sql_absentDetail)
+			absnt=cursor.fetchall()
+			absent_detail=absent_detail+absnt
+			
+	return render(request,'faceapp/index.html',{'StaffInfos':StaffInfos,'sql_totstaff':sql_totstaff,'sql_present':sql_present,'sql_absent':sql_absent,'presentDetail':presentDetail,'absent_detail':absent_detail,'dateintable':dateintable})
+
+
+#form to save in database of newstaff
+def addstaffDB(request):
+	if request.method=='POST':
+		if request.POST['inputFirstName'] and request.POST['inputLastName'] and request.POST['inputCodeNo'] and request.POST['inputDesignation'] and request.POST['inputDepartment'] and request.POST['inputSpecialization'] and request.POST['inputEmailAddress'] and request.POST['inputContactNo'] and request.POST['inputAddress']:
+			print('----------------->saved')
+			# saverecord=StaffInfo()
+			f_name=request.POST.get('inputFirstName')
+			l_name=request.POST['inputLastName']
+			name=f_name+' '+l_name
+			image='faceapp/images/staffs/'+request.POST['inputImg']
+			code=request.POST['inputCodeNo']
+			designation=request.POST['inputDesignation']
+			department=request.POST['inputDepartment']
+			specialization=request.POST['inputSpecialization']
+			email=request.POST['inputEmailAddress']
+			contact=request.POST['inputContactNo']
+			address=request.POST['inputAddress']
+			ins_record=StaffInfo(name=name,image=image,code=code,department=department,desgination=designation,specialization=specialization,email=email,contact=contact,address=address)
+			ins_record.save()
+			print(name,image,code,designation,department,specialization,email,contact,address,'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+			print("++++++++++++++++++record set in database")
+			# messages.success(request,'Record Saved Successfully...')
+			# return render(request,'faceapp/index.html')
+		return redirect('/addstaff/')
+		# return render(request,'faceapp/add_new_staff.html',{})
+	else:
+		print('------------>not saved')
+		# return redirect('/')
+		return render(request,'faceapp/add_new_staff.html',{})
+
+
+'''####trying form--->model form
+from .forms import StaffInfoForm
+def addstaffDB(request):
+    if request.method == "POST":
+        form = StaffInfoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+        return redirect('/addstaff/')
+
+    else:
+        print("error")
+
+    return render(request,'faceapp/add_new_staff.html',{})'''
+
+
 
 # <<<<<<<<<----application code--->>>>>>>>>>>>>>>>>>>
 

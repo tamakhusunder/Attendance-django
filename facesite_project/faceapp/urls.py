@@ -13,4 +13,9 @@ urlpatterns = [
     path('recognization/', views.recognization, name='recognizations'),
     path('offline/',views.offline,name='offline'),
 
+    path('datesearch',views.datesearch,name='datesearch'),
+    path('addstaff/addstaffDB/',views.addstaffDB,name='addstaffDB'),
+
+
+
 ]
